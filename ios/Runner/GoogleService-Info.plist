@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>494947362159-logp5jisv8itke6c6ovrrdsomhg06ckl.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.494947362159-logp5jisv8itke6c6ovrrdsomhg06ckl</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>494947362159-h0p0qd050haqmmcs1vlafpm780lp5n1a.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDvkkOKTSedyLvw-RzcLskJFz86BFkUnTs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>494947362159</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.mobile.aspirevue</string>
+	<key>PROJECT_ID</key>
+	<string>aspirevue-c3102</string>
+	<key>STORAGE_BUCKET</key>
+	<string>aspirevue-c3102.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:494947362159:ios:a0d8b205abf0889010749a</string>
+</dict>
+</plist>

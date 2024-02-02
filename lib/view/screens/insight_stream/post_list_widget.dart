@@ -1,0 +1,179 @@
+import 'package:aspirevue/controller/common_controller.dart';
+import 'package:aspirevue/controller/insight_stream_controller.dart';
+import 'package:aspirevue/controller/user_insight_stream_controller.dart';
+import 'package:aspirevue/util/app_constants.dart';
+import 'package:aspirevue/view/base/custom_loader.dart';
+import 'package:aspirevue/view/base/custom_snackbar.dart';
+import 'package:aspirevue/view/base/loading_and_error/custom_error_widget.dart';
+import 'package:aspirevue/view/base/loading_and_error/insight_tream_shimmer_widget.dart';
+import 'package:aspirevue/view/screens/create_post/create_post_screen.dart';
+import 'package:aspirevue/view/screens/insight_stream/widget/insight_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class PostListWidget extends StatefulWidget {
+  const PostListWidget({
+    super.key,
+    required this.streamType,
+    required this.userId,
+  });
+  final UserInsightStreamEnumType streamType;
+  final String userId;
+  @override
+  State<PostListWidget> createState() => _PostListWidgetState();
+}
+
+class _PostListWidgetState extends State<PostListWidget> {
+  final _userInsightStreamController = Get.find<UserInsightStreamController>();
+  final _insightStreamController = Get.find<InsightStreamController>();
+  final _scrollcontroller = ScrollController();
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+    _scrollcontroller.addListener(_loadMore);
+  }
+
+  void _loadMore() async {
+    if (!_userInsightStreamController.isnotMoreDatauserFeedStream) {
+      if (_scrollcontroller.position.pixels ==
+          _scrollcontroller.position.maxScrollExtent) {
+        if (_userInsightStreamController.isLoadinguserStream == false &&
+            _userInsightStreamController.isLoadMoreRunninguserFeedStream ==
+                false &&
+            _scrollcontroller.position.extentAfter < 300) {
+          _userInsightStreamController.pageNumberuserFeedStream += 1;
+          await _userInsightStreamController.getOtherUserInsightFeeds(
+              false, widget.userId,
+              stramType: widget.streamType);
+        }
+      }
+    }
+  }
+
+  Future<void> loadData() async {
+    _userInsightStreamController.getOtherUserInsightFeeds(true, widget.userId,
+        stramType: widget.streamType);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildView(context);
+  }
+
+  GestureDetector _buildView(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: SafeArea(
+        child: GetBuilder<UserInsightStreamController>(
+          builder: (controller) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: _buildList(controller)),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  _buildList(UserInsightStreamController controller) {
+    return controller.isLoadinguserStream == true
+        ? Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: AppConstants.screenHorizontalPadding),
+            child: const InsightFeedShimmer("hashtag"),
+          )
+        : controller.isErroruserStream == true
+            ? Center(
+                child: CustomErrorWidget(
+                    onRetry: () {
+                      controller.getOtherUserInsightFeeds(true, widget.userId,
+                          stramType: widget.streamType);
+                    },
+                    text: controller.errorMsguserStream),
+              )
+            : controller.userTagFeedList.isEmpty
+                ? Center(
+                    child: CustomErrorWidget(
+                        isNoData: true,
+                        onRetry: () {
+                          controller.getOtherUserInsightFeeds(
+                              true, widget.userId,
+                              stramType: widget.streamType);
+                        },
+                        text: controller.errorMsguserStream),
+                  )
+                : RefreshIndicator(
+                    onRefresh: () {
+                      return controller.getOtherUserInsightFeeds(
+                          true, widget.userId,
+                          stramType: widget.streamType);
+                    },
+                    child: ListView.builder(
+                      controller: _scrollcontroller,
+                      padding: EdgeInsets.zero,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      itemCount: controller.userTagFeedList.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        bool isLast =
+                            index + 1 == controller.userTagFeedList.length;
+                        return InsightWidget(
+                          streamType: widget.streamType,
+                          isFrom: PostTypeEnum.user,
+                          isShowCommnetSection: true,
+                          controller.userTagFeedList[index],
+                          isLast: isLast,
+                          isLoadingLast:
+                              controller.isLoadMoreRunninguserFeedStream,
+                          onEditing: () {
+                            _editPost(controller.userTagFeedList[index].id
+                                .toString());
+                          },
+                          onDeleting: () {
+                            _deletePost(controller.userTagFeedList[index].id
+                                .toString());
+                          },
+                        );
+                      },
+                    ),
+                  );
+  }
+
+  _editPost(String postId) async {
+    var result = await Get.to(() => CreatePostScreen(
+          postId: postId,
+        ));
+
+    if (result != null && result == true) {
+      loadData();
+    }
+  }
+
+  _deletePost(String postid) async {
+    try {
+      buildLoading(Get.context!);
+      var response = await _insightStreamController.removePost(
+        postid,
+      );
+      if (response.isSuccess == true) {
+        _userInsightStreamController.removePostFromList(postid);
+        _insightStreamController.getInsightFeed(true);
+        showCustomSnackBar(response.message, isError: false);
+      } else {
+        showCustomSnackBar(response.message);
+      }
+    } catch (e) {
+      String error = CommonController().getValidErrorMessage(e.toString());
+      showCustomSnackBar(error.toString());
+    } finally {
+      Navigator.pop(Get.context!);
+    }
+  }
+}

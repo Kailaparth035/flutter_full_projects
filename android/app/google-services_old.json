@@ -1,0 +1,70 @@
+{
+  "project_info": {
+    "project_number": "494947362159",
+    "project_id": "aspirevue-c3102",
+    "storage_bucket": "aspirevue-c3102.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:494947362159:android:48959a829384fd5e10749a",
+        "android_client_info": {
+          "package_name": "com.mobile.aspirevue"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "494947362159-h0p0qd050haqmmcs1vlafpm780lp5n1a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobile.aspirevue",
+            "certificate_hash": "c4088c47d27f713e00c69c5e21e66c5a58297da9"
+          }
+        },
+        {
+          "client_id": "494947362159-kfmk89a3a4ingemnljunln3d2igjshtp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobile.aspirevue",
+            "certificate_hash": "b29546deee476a9b5bcfa2183c1f01930f438fd2"
+          }
+        },
+        {
+          "client_id": "494947362159-u66d9aqhb3194eueuasjra3ore0sf6br.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobile.aspirevue",
+            "certificate_hash": "ff9a2b0525c35f2bf33717482e72841903554faa"
+          }
+        },
+        {
+          "client_id": "494947362159-ii1vacu391lg701o58b6rbmg597t58kt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuh4Um2G_w-c8AduI_lYfWIh4O6dvAz1U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "114861482550466016659",
+              "client_type": 3
+            },
+            {
+              "client_id": "494947362159-logp5jisv8itke6c6ovrrdsomhg06ckl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mobile.aspirevue"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
